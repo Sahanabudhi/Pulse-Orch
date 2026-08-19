@@ -74,3 +74,35 @@ Returns allergies for one patient.
 
 Example: \[{"id":"uuid","patient\_id":"uuid","allergy\_name":"Penicillin"}]
 
+
+
+\## POST /api/orchestrate/{patient\_id}
+
+Runs the orchestrator across Triage, Bed, Blood, and Doctor agents for a patient, logging each step.
+
+Example: {"patient\_id":"uuid","events":\[{"agent":"TRIAGE AGENT","message":"Patient classified as CRITICAL","status":"success"}, ...]}
+
+
+
+\## GET /api/agent-events
+
+Returns the 20 most recent agent event log entries, newest first.
+
+Example: \[{"id":"uuid","patient\_id":"uuid","agent\_name":"BED AGENT","message":"ICU bed available at ...","status":"success","created\_at":"..."}]
+
+
+
+\## GET /api/shadow-mode/{hospital\_id}
+
+Predicts ICU capacity shortages for a hospital based on incoming critical patients.
+
+Example: {"hospital":"City General","warning":true,"message":"ICU CAPACITY SHORTAGE PREDICTED — exhausted in \~15 minutes.","icu\_beds\_available":2,"critical\_patients\_incoming":3}
+
+
+
+\## GET /api/recommend-transfer/{patient\_id}
+
+Scores all other hospitals for a patient's transfer suitability (ICU beds, specialist availability, blood supply, OR availability) and returns a ranked list plus a top recommendation, with an AI-generated one-sentence explanation.
+
+Example: {"patient\_id":"uuid","recommended":{"hospital":"Hospital C","hospital\_id":"uuid","score":43}, "brain\_agent\_reasoning":"...", "all\_options":\[...]}
+
